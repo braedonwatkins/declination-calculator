@@ -1,4 +1,7 @@
+# python ignorables
 .venv/
+**/__pycache__
 
 # I don't have a lot of data here now but maybe I will so pre-emptively ignoring 
 data/*
+
