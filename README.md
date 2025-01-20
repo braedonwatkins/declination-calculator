@@ -10,6 +10,15 @@ The process I have in mind is something to the effect of:
 2. User Interface (interactive map, input fields, display of declination, and other UI ["juice"](https://garden.bradwoods.io/notes/design/juice))
 3. Validation & Testing (compare to WMM calculator, error handling, uncertainty estimates, testing suite)
 
+## Model Implementation
+
+### Geodetic to Geocentric
+
+My understanding right now is that data measured from satellites is what we call geodetic. Of course this is accurate to Earth's irregular shape. According to [this WMM technical report](
+https://repository.library.noaa.gov/view/noaa/24390/noaa_24390_DS1.pdf) we should be treating Earth's real, irregular shape, as the [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System) ellipsoid.
+
+Therefore, any spherical harmonics or spherical approximations we need to do we will need to use this conversion.
+
 ## PREV: Intermag Data Pipeline
 
 ### Description
