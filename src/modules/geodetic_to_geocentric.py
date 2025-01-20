@@ -24,14 +24,20 @@ def geodetic_to_geocentric(
     lat_rad = math.radians(lat)  # phi
     lon_rad = math.radians(lon)  # lambda
 
+    # cache trig functions to avoid recalculating
+    sin_lat_rad = math.sin(lat_rad)
+    cos_lat_rad = math.cos(lat_rad)
+    sin_lon_rad = math.sin(lon_rad)
+    cos_lon_rad = math.cos(lon_rad)
+
     # Prime vertical radius i.e. distance from center due to curvature
     # More intuitive but more computationally expensive definition:
-    # N = a / math.sqrt((a * math.cos(lon_rad)) **2 + (b * math.sin(lon_rad)**2))
-    N = a / math.sqrt(1 - e2 * math.sin(lat_rad) ** 2)
+    # N = a / math.sqrt((a * cos_lon_rad) **2 + (b * sin_lon_rad**2))
+    N = a / math.sqrt(1 - e2 * sin_lat_rad**2)
 
     # these have cool derivations but i won't bloat comments with it
-    x = (N + alt) * math.cos(lat_rad) * math.cos(lon_rad)
-    y = (N + alt) * math.cos(lat_rad) * math.sin(lon_rad)
-    z = ((1 - e2) * N + alt) * math.sin(lat_rad)
+    x = (N + alt) * cos_lat_rad * cos_lon_rad
+    y = (N + alt) * cos_lat_rad * sin_lon_rad
+    z = ((1 - e2) * N + alt) * sin_lat_rad
 
     return (x, y, z)
