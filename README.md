@@ -12,9 +12,12 @@ The process I have in mind is something to the effect of:
 
 ## Model Implementation
 
+- started by creating a util module for converting geodetic coordinates to geocentric
+    - note to self: e is used to resemble eccentricity in these equations *not*euler's number!
+
 ### Geodetic to Geocentric
 
-My understanding right now is that data measured from satellites is what we call geodetic. Of course this is accurate to Earth's irregular shape. According to [this WMM technical report](
+My understanding right now is that data measured from satellites is what we call geodetic. Of course this is accurate to Earth's irregular shape which is tricky to model mathematically and programatically. According to [this WMM technical report](
 https://repository.library.noaa.gov/view/noaa/24390/noaa_24390_DS1.pdf) we should be treating Earth's real, irregular shape, as the [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System) ellipsoid.
 
 Therefore, any spherical harmonics or spherical approximations we need to do we will need to use this conversion.
