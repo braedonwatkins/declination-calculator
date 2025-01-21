@@ -5,6 +5,7 @@ f = 1 / 298.257223563  # flattening (f) is same as `1 - (b/a) = f`
 e2 = 2 * f - f**2  # square of eccentricity (deviation from a sphere)
 
 
+# TODO: Check for any math footguns div by 0, inefficiencies, etc.
 def geodetic_to_spherical(lat: float, alt: float) -> tuple[float, float]:
     """
     Converts geodetic coordinates to geocentric spherical radius and latitude
@@ -15,7 +16,7 @@ def geodetic_to_spherical(lat: float, alt: float) -> tuple[float, float]:
         alt (float): altitude in meters
 
     Returns:
-        (r, geocentric_lat) (tuple): Geocentric spherical radius and latitude
+        (r, geocentric_lat) (tuple(float)): Geocentric spherical radius and latitude
     """
 
     lat_rad = math.radians(lat)  # phi
