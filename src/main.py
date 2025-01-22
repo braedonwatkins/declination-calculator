@@ -21,11 +21,6 @@ a = 6378137  # semi major in (m)
 if __name__ == "__main__":
     print("Hello Geomagnetic World!")
 
-    # TODO: .env this (or Py equivalent)
-    g, h, g_dot, h_dot = parse_wmm(
-        "/Users/braedon/noaa/declination-calculator/data/WMM2020COF/WMM.COF"
-    )
-
     lat, lon, alt, input_time = map(float, sys.argv[1:5])
     r, geocentric_lat = geodetic_to_spherical(lat, alt)
 
@@ -35,7 +30,12 @@ if __name__ == "__main__":
 
     g_t = np.zeros((13, 13))
     h_t = np.zeros((13, 13))
+    # TODO: .env this (or Py equivalent)
+    g, h, g_dot, h_dot = parse_wmm(
+        "/Users/braedon/noaa/declination-calculator/data/WMM2020COF/WMM.COF"
+    )
 
+    # TODO: this would be more efficient inside parse_wmm
     for n in range(MAX_DEGREES):
         for m in range(MAX_ORDER):
             g_t[n][m], h_t[n][m] = gauss_coefficients(
