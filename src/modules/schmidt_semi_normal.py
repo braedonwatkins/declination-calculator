@@ -9,14 +9,14 @@ from scipy.special import lpmv
 
 
 def schmidt_semi_normalize(n: int, m: int, mu: float) -> float:
-    if m > 0:
-        numerator = math.factorial(n - m)
-        denomenator = math.factorial(n - m)
-        legendre = lpmv(n, m, mu)
-
-        return math.sqrt(2 * (numerator / denomenator)) * legendre
+    if m == 0:
+        normalization = 1.0
+    elif m > 0:
+        normalization = math.sqrt(2.0 * math.factorial(n - m) / math.factorial(n + m))
     else:
-        return 0.0
+        raise Exception()  # TODO: handle this, though who would input m < 0? corrupted files maybe
+
+    return normalization * lpmv(m, n, mu)
 
 
 def schmidt_semi_normalize_d1(n: int, m: int, mu: float) -> float:
@@ -92,13 +92,6 @@ def schmidt_semi_normalize_d1(n: int, m: int, mu: float) -> float:
 #     with pytest.raises(ValueError):
 #         schmidt_semi_normalize(1, 2, 0.5)
 
-    # this might be the goofiest part of the code
-    # i have a hard time believing it's more readable inline but i'll defer to the opinions of the smart people
-    term0 = schmidt_semi_normalize(n, m, math.sin(mu))
-    term1 = n + 1
-    term2 = math.tan(mu)
-    term3 = math.sqrt((term1) ** 2 - (m**2))
-    term4 = 1 / (math.cos(mu))
 
-    res = term0 * (term1 * term2 - term3 * term4)
-    return res
+# if __name__ == "__main__":
+#     pytest.main([__file__])
