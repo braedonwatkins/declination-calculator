@@ -15,9 +15,20 @@ def vector_components(a, r, g_t, h_t, phi_prime, lambda_):
     for n in range(1, 13):
         factor = (a / r) ** (n + 2)
 
+        print(f"\nFor n={n}:")
+        print(f"factor = {factor}")
+
         for m in range(0, n + 1):
             schmidt_d1 = schmidt_semi_normalize_d1(n, m, math.sin(phi_prime))
             schmidt = schmidt_semi_normalize(n, m, math.sin(phi_prime))
+
+            print(f"\n  For m={m}:")
+            print(f"  schmidt_d1 = {schmidt_d1}")
+            print(f"  schmidt = {schmidt}")
+            print(f"  cos(m*lambda) = {math.cos(m*lambda_)}")
+            print(f"  sin(m*lambda) = {math.sin(m*lambda_)}")
+            print(f"  g_t[n][m] = {g_t[n][m]}")
+            print(f"  h_t[n][m] = {h_t[n][m]}")
 
             X_prime += (
                 factor
@@ -27,7 +38,6 @@ def vector_components(a, r, g_t, h_t, phi_prime, lambda_):
                 )
                 * schmidt_d1
             )
-
             Y_prime += (
                 factor
                 * m
@@ -37,7 +47,6 @@ def vector_components(a, r, g_t, h_t, phi_prime, lambda_):
                 )
                 * schmidt
             )
-
             Z_prime += (
                 (n + 1)
                 * factor
@@ -48,6 +57,9 @@ def vector_components(a, r, g_t, h_t, phi_prime, lambda_):
                 * schmidt
             )
 
+            print(f"  x_term = {X_prime}")
+            print(f"  y_term = {Y_prime}")
+            print(f"  z_term = {Z_prime}")
     X_prime *= -1.0
     Y_prime *= 1 / math.cos(phi_prime)
     Z_prime *= -1.0
