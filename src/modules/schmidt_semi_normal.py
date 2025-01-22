@@ -5,9 +5,8 @@ import warnings
 from hypothesis import given, strategies as st
 from scipy.special import lpmv
 
-# TODO: Docstring both of these... maybe?
 
-
+# TODO: Docstring both of these...
 def schmidt_semi_normalize(n: int, m: int, mu: float) -> float:
     if m == 0:
         normalization = 1.0
@@ -16,7 +15,9 @@ def schmidt_semi_normalize(n: int, m: int, mu: float) -> float:
     else:
         raise Exception()  # TODO: handle this, though who would input m < 0? corrupted files maybe
 
-    return normalization * lpmv(m, n, mu)
+    legendre = lpmv(m, n, mu)
+    # print(normalization, legendre)
+    return normalization * legendre
 
 
 def schmidt_semi_normalize_d1(n: int, m: int, mu: float) -> float:
