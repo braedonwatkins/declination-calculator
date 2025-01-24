@@ -23,9 +23,9 @@ def vector_components(a, r, g_t, h_t, phi_prime, lambda_):
             schmidt_d1 = schmidt_semi_normalize_d1(n, m, math.sin(phi_prime))
             schmidt = schmidt_semi_normalize(n, m, math.sin(phi_prime))
 
-            print(f"n={n}, m={m}:")
-            print(f"  schmidt = {schmidt}")
-            print(f"  schmidt_d1 = {schmidt_d1}")
+            # print(f"n={n}, m={m}:")
+            # print(f"  schmidt = {schmidt}")
+            # print(f"  schmidt_d1 = {schmidt_d1}")
 
             # print(f"\n  For m={m}:")
             # print(f"  schmidt_d1 = {schmidt_d1}")

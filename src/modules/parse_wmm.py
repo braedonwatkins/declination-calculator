@@ -52,4 +52,6 @@ def parse_wmm(file_path: str) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.nd
             h_arr[n, m] = h
             h_dot_arr[n, m] = h_dot
 
+            # print(n, m, g, h, g_dot, h_dot)
+
     return g_arr, h_arr, g_dot_arr, h_dot_arr
