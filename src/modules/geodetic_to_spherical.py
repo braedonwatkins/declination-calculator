@@ -19,16 +19,14 @@ def geodetic_to_spherical(lat: float, h: float) -> tuple[float, float]:
         (r, geocentric_lat) (tuple(float)): Geocentric spherical radius and latitude
     """
 
-    lat_rad = math.radians(lat)  # phi
-
     # Prime vertical radius i.e. distance from center due to curvature
-    R = a / math.sqrt(1 - e2 * math.sin(lat_rad) ** 2)
+    R = a / math.sqrt(1 - e2 * math.sin(lat) ** 2)
 
     # just in case, here's the other geocentric coords
-    # x = (N + h) * cos_lat_rad * cos_lon_rad
-    # y = (N + h) * cos_lat_rad * sin_lon_rad
-    p = (R + h) * math.cos(lat_rad)  # eq to math.sqrt(x**2 + y**2)
-    z = (R * (1 - e2) + h) * math.sin(lat_rad)
+    # x = (N + h) * cos_lat * cos_lon_rad
+    # y = (N + h) * cos_lat * sin_lon_rad
+    p = (R + h) * math.cos(lat)  # eq to math.sqrt(x**2 + y**2)
+    z = (R * (1 - e2) + h) * math.sin(lat)
     r = math.sqrt(p**2 + z**2)
 
     geocentric_lat = math.asin(z / r)
