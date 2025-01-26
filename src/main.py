@@ -21,6 +21,7 @@ if __name__ == "__main__":
 
     lat, lon, alt, input_time = map(float, sys.argv[1:5])
     lat_rad, lon_rad = math.radians(lat), math.radians(lon)
+
     r, geocentric_lat = geodetic_to_spherical(lat_rad, alt)
 
     # print("lat, lon, alt, input", lat, lon, alt, input_time)
@@ -49,7 +50,22 @@ if __name__ == "__main__":
     # print("h_t[1][1]", h_t[1][1])
     # print("h_t[2][2]", h_t[2][2])
 
-    x, y, z = vector_components(a, r, g_t, h_t, geocentric_lat, lon_rad)
-    print(x, y, z)
+    x_prime, y_prime, z_prime = vector_components(
+        a, r, g_t, h_t, geocentric_lat, lon_rad
+    )
+    print(f"X' {x_prime:.2f} Y' {y_prime:.2f} Z' {z_prime:.2f}")
 
-    # print(lpmv(3, 3, math.sin(math.pi / 2)))
+    x_dot, y_dot, z_dot = vector_components(a, r, g_dot, h_dot, geocentric_lat, lon_rad)
+    # print(x_dot, y_dot, z_dot)
+
+    x = x_prime * math.cos(geocentric_lat - lat_rad) - z_prime * math.sin(
+        geocentric_lat - lat_rad
+    )
+    y = y_prime
+    z = x_prime * math.sin(geocentric_lat - lat_rad) + z_prime * math.cos(
+        geocentric_lat - lat_rad
+    )
+    print(f"X {x:.2f} Y {y:.2f} Z {z:.2f}")
+
+    D = np.arctan(y / x)
+    print("declination?", D)
