@@ -12,7 +12,7 @@ def geodetic_to_spherical(lat: float, h: float) -> tuple[float, float]:
 
 
     Parameters:
-        lat (float): Latitude in degrees
+        lat (float): Latitude in radians
         h (float): altitude in meters
 
     Returns:
