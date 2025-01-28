@@ -14,6 +14,14 @@ The process I have in mind is something to the effect of:
 
 ## Model Implementation
 
+### Inputs
+
+The code I wrote takes in three arguments **latitude (*&phi;*))**, **longitude (*&lambda;*))**, and **height (*h*))** such that lat. and lon. are measured in degrees and height is measured in meters above sea level. 
+
+I then convert lat. and lon. to radians and keep height as-is. Note, there is a section in the report that defines height as Height Above Epsilloid (HAE) but the paper admits that the difference between this and Mean Sea Level (MSL) height will only produce error within 0.1 nT so I chose to ignore it for now.
+
+Comparing these values to the numerical example my input is valid. 
+
 ### Geodetic to Geocentric Coordinates
 
 My understanding right now is that data measured from satellites is what we call geodetic. Of course this is accurate to Earth's irregular shape which is tricky to model mathematically and programatically. According to [this WMM technical report](
