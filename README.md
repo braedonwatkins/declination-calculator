@@ -47,27 +47,24 @@ I validated **g(*n,m,t*)** and **h(*n,m,t*)** for `n = 1,2` `m = 1,2` and `t = 2
 
 ### Field Vector Components
 
-When validating against the WMM I was not able to get correct results for field vector components ***X'***, ***Y'***, and ***Z'***. The following was my approach.
+When validating against the WMM I was able to get correct results within a reasonable margin $\pm 0.5\%$ for field vector components ***X'***, ***Y'***, and ***Z'***. The following was my approach.
+
+> [!WARNING] 
+> The scipy library function `lpmv()` assumes a Condon-Shortley Phase factor which will undoubtedly skew your results.
 
 #### Associated Legendre Functions
 
-Using the python library scipy I was able to calculate the Associated Legendre functinos with `scipy.lpmv(m,n,mu)`.
+Using the python library scipy I was able to calculate the Associated Legendre functions with `scipy.lpmv(m,n,mu)`.
 
 The technical report doesn't give solutions to any associated legendre functions. However, they do provide the generated functions for `n = 3` and `m=1,2,3`. I analytically solved these and compared to `scipy.lpmv(m,n,mu)`. 
 
 The solutions were correct for `m=2,3` but was incorrect for `m=1`.
 
-As it turns out this can be traced to errata in the source (*Heiskanen and Moritz, 1967*) where they suggest:
+I traced this to the textbook source (*Heiskanen and Moritz, 1967*) where they suggest:
 
 $$ P_{3,1}(\cos(\theta)) = \sin(\theta) ( \frac{15}{2} \cos^2 (\theta) - \frac{3}{2} ) $$
 
-wheras the correct implementation would be:
-
-$$ P_{3,1}(\cos(\theta)) = \sin(\theta) ( \frac{3}{2} - \frac{15}{2} \cos^2 (\theta) ) $$
-
-
-Cross-referencing with other sources defining the Associated Legendre Functions my definition appears to be correct and all values of `m` produce a correct output against my analytical solutions.
-
+While I thought this was errata, it was actually the first sign that the Condon-Shortley term was the issue, had I known what that was and the context of its existence.
 
 #### Schmidt Semi-Normalization
 
@@ -82,17 +79,20 @@ Given my analytical solution for $\bar{P}_n^m(\sin(\phi'))$ where `n=3` and `m=1
 Given equation  (12) which defines ***Z'*** in terms of $\bar{P}_n^m(\sin(\phi'))$ I was able to analytically solve for `n=3` and `m=1,2,3`. 
 For these inputs, my code output is valid.
 
-However, the total sum that produces ***Z'*** is incorrect by a large margin for many inputs, including the numerical example. Similarly, my ***X'*** and ***Y'*** are also incorrect by a large margin.
+##### Before LPMV Correction 
+
+However, the total sum that produces ***Z'*** was incorrect by a large margin for many inputs, including the numerical example. Similarly, my ***X'*** and ***Y'*** was also incorrect by a large margin.
+
+##### After LPMV Correction
+
+I discovered the root of my error was the Condon-Shortley Phase term assumed in `scipy.lpmv()`. Once I accounted for this the large margin of error was corrected. 
 
 ### Conclusion
 
-I'm not quite sure where I went wrong. 
+Currently I am still observing relatively small amounts of error $\pm 0.5\%$. I assume these are the results of rounding errors since the technical document seems to state no more than 0.1nT of error which is much smaller.
 
-It is entirely possible that the narrow band of values that I did test against the numerical example were coincidentally correct. It is also entirely possible that I may have incorrectly performed my analytical solutions for values that were not provided in the numerical example.
-
-That said, I find it hard to believe that I was able to precisely achieve these results i.e. my code consistently produced the result expected for a given step. But when compared to the final result was incorrect. 
+I won't worry about this too much at the moment while I work on the UI just to have something presentable in a reasonable timeline but I do intend on coming back to it to increase accuracy.
 
 ## Web Frontend
 
-For now, I am moving on to rendering my results. At least in that sense I can still provide some value even if my calculations turn out to be incorrect.
-
+TBA
