@@ -47,14 +47,12 @@ def vector_components(a, r, g_t, h_t, phi_prime, lambda_):
             ) * schmidt
 
         factor = (a / r) ** (n + 2)
-        X_prime += factor * x_cur
+        X_prime -= factor * x_cur
         Y_prime += factor * y_cur
-        Z_prime += (n + 1) * factor * z_cur
+        Z_prime -= (n + 1) * factor * z_cur
 
         # print(f"X' {X_prime:.2f} Y' {Y_prime:.2f} Z' {Z_prime:.2f}")
 
-    X_prime *= -1.0
     Y_prime *= 1 / math.cos(phi_prime)
-    Z_prime *= -1.0
 
     return X_prime, Y_prime, Z_prime

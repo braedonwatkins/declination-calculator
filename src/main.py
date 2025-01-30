@@ -53,10 +53,18 @@ if __name__ == "__main__":
     x_prime, y_prime, z_prime = vector_components(
         a, r, g_t, h_t, geocentric_lat, lon_rad
     )
-    print(f"X' {x_prime:.2f} Y' {y_prime:.2f} Z' {z_prime:.2f}")
 
-    x_dot, y_dot, z_dot = vector_components(a, r, g_dot, h_dot, geocentric_lat, lon_rad)
-    # print(x_dot, y_dot, z_dot)
+    x_dot_prime, y_dot_prime, z_dot_prime = vector_components(
+        a, r, g_dot, h_dot, geocentric_lat, lon_rad
+    )
+
+    x_dot = x_dot_prime * math.cos(geocentric_lat - lat_rad) - z_dot_prime * math.sin(
+        geocentric_lat - lat_rad
+    )
+    y_dot = y_dot_prime
+    z_dot = z_dot_prime * math.sin(geocentric_lat - lat_rad) + z_dot_prime * math.cos(
+        geocentric_lat - lat_rad
+    )
 
     x = x_prime * math.cos(geocentric_lat - lat_rad) - z_prime * math.sin(
         geocentric_lat - lat_rad
