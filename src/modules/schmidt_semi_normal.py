@@ -16,6 +16,11 @@ def schmidt_semi_normalize(n: int, m: int, mu: float) -> float:
         raise Exception()  # TODO: handle this, though who would input m < 0? corrupted files maybe
 
     legendre = lpmv(m, n, mu)
+
+    # NOTE: this cancels the Condon-Shortley Phase!!!
+    if m % 2 == 1:
+        legendre *= -1.0
+
     # print(n, m, normalization, legendre)
     return normalization * legendre
 
