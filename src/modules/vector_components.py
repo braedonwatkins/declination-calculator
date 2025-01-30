@@ -25,7 +25,7 @@ def vector_components(a, r, g_t, h_t, phi_prime, lambda_):
             # print(f"g_{n}_{m}: {g_t[n][m]}")
             # print(f"h_{n}_{m}: {h_t[n][m]}")
             sin_phi_prime = math.sin(phi_prime)
-            schmidt_d1 = schmidt_semi_normalize_d1(n, m, sin_phi_prime)
+            schmidt_d1 = schmidt_semi_normalize_d1(n, m, phi_prime, sin_phi_prime)
             schmidt = schmidt_semi_normalize(n, m, sin_phi_prime)
             # schmidt_d1 = lpmv(m, n, math.sin(phi_prime))
             # schmidt = lpmv(m, n, math.sin(phi_prime))

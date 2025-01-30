@@ -25,11 +25,11 @@ def schmidt_semi_normalize(n: int, m: int, mu: float) -> float:
     return normalization * legendre
 
 
-def schmidt_semi_normalize_d1(n: int, m: int, mu: float) -> float:
+def schmidt_semi_normalize_d1(n: int, m: int, phi: float, mu: float) -> float:
     legendre_cur = schmidt_semi_normalize(n, m, mu)
     legendre_next = schmidt_semi_normalize(n + 1, m, mu)
 
-    term1 = (n + 1) * math.tan(mu) * legendre_cur
-    term2 = math.sqrt((n + 1) ** 2 - m**2) * (1 / math.cos(mu)) * legendre_next
+    term1 = (n + 1) * math.tan(phi) * legendre_cur
+    term2 = math.sqrt((n + 1) ** 2 - m**2) * (1 / math.cos(phi)) * legendre_next
 
     return term1 - term2
