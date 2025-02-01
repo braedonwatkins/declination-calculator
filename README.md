@@ -47,7 +47,7 @@ I validated **g(*n,m,t*)** and **h(*n,m,t*)** for `n = 1,2` `m = 1,2` and `t = 2
 
 ### Field Vector Components
 
-When validating against the WMM I was able to get correct results within a reasonable margin $\pm 0.5\%$ for field vector components ***X'***, ***Y'***, and ***Z'***. The following was my approach.
+When validating against the WMM I was able to get correct results within a reasonable margin $\pm 0.5$% for field vector components ***X'***, ***Y'***, and ***Z'***. The following was my approach.
 
 > [!WARNING] 
 > The scipy library function `lpmv()` assumes a Condon-Shortley Phase factor which will undoubtedly skew your results.
@@ -89,7 +89,7 @@ I discovered the root of my error was the Condon-Shortley Phase term assumed in 
 
 ### Conclusion
 
-Currently I am still observing relatively small amounts of error $\pm 0.5\%$. I assume these are the results of rounding errors since the technical document seems to state no more than 0.1nT of error which is much smaller.
+Currently I am still observing relatively small amounts of error $\pm 0.5$%. I assume these are the results of rounding errors since the technical document seems to state no more than 0.1nT of error which is much smaller.
 
 I won't worry about this too much at the moment while I work on the UI just to have something presentable in a reasonable timeline but I do intend on coming back to it to increase accuracy.
 
