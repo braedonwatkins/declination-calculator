@@ -1,5 +1,6 @@
 import math
 
+from calc.const import MAX_DEGREE
 from calc.schmidt_semi_normal import (
     schmidt_semi_normalize,
     schmidt_semi_normalize_d1,
@@ -14,7 +15,7 @@ def vector_components(a, r, g_t, h_t, phi_prime, lambda_):
     Y_prime = 0.0
     Z_prime = 0.0
 
-    for n in range(1, 13):
+    for n in range(1, MAX_DEGREE + 1):
         x_cur = 0.0
         y_cur = 0.0
         z_cur = 0.0

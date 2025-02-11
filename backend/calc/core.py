@@ -2,19 +2,18 @@ import math
 import numpy as np
 from pathlib import Path
 
-from utils.parse_wmm import parse_wmm
+from const import *
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+
+from utils.parse_wmm import parse_wmm
 from calc.geodetic_to_spherical import geodetic_to_spherical
 from calc.gauss_coefficients import gauss_coefficients
 from calc.vector_components import vector_components
 
 from ..types import FieldVector
-
-# TODO: .env or otherwise source these
-MAX_DEGREES = 12  # n
-MAX_ORDER = 12  # m
-EPOCH = 2020.0
-a = 6378137  # semi major in (m)
 
 
 def field_vector(lat: float, lon: float, alt: float, input_time: float) -> FieldVector:
@@ -27,17 +26,18 @@ def field_vector(lat: float, lon: float, alt: float, input_time: float) -> Field
     # print("geo lat", geocentric_lat)
     # print("r", r)
 
-    g_t = np.zeros((13, 13))
-    h_t = np.zeros((13, 13))
+    g_t = np.zeros((MAX_DEGREE + 1, MAX_ORDER + 1))
+    h_t = np.zeros((MAX_DEGREE + 1, MAX_ORDER + 1))
 
-    # TODO: map this to input, dont hardcode
+    # if env is set up will grab that path, otherwise assume unaltered in ./data/
     script_dir = Path(__file__).parent.parent
-    file_path = script_dir / "data" / "WMM2020COF/WMM.COF"
+    implicit_path = str(script_dir / "data" / "WMM{int(EPOCH)}COF/WMM.COF")
+    explicit_path = os.getenv("DATA_PATH")
 
-    g, h, g_dot, h_dot = parse_wmm(str(file_path))
+    g, h, g_dot, h_dot = parse_wmm(explicit_path if explicit_path else implicit_path)
 
     # TODO: just define the whole loop in guass coefficients file
-    for n in range(1, MAX_DEGREES + 1):
+    for n in range(1, MAX_DEGREE + 1):
         for m in range(0, n + 1):
             g_t[n][m], h_t[n][m] = gauss_coefficients(
                 g[n][m], h[n][m], g_dot[n][m], h_dot[n][m], input_time, EPOCH
@@ -46,13 +46,8 @@ def field_vector(lat: float, lon: float, alt: float, input_time: float) -> Field
             # g_t[n][m] = g[n][m]
             # h_t[n][m] = h[n][m]
 
-    # print("g_t[1][0]", g_t[1][0])
-    # print("g_t[2][2]", g_t[2][2])
-    # print("h_t[1][1]", h_t[1][1])
-    # print("h_t[2][2]", h_t[2][2])
-
     x_prime, y_prime, z_prime = vector_components(
-        a, r, g_t, h_t, geocentric_lat, lon_rad
+        A, r, g_t, h_t, geocentric_lat, lon_rad
     )
 
     # #NOTE: secular components... break this to its own function, maybe
