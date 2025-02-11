@@ -1,14 +1,13 @@
 import math
 import sys
 import numpy as np
-from scipy.special import lpmv
 from pathlib import Path
 
-from src.modules.geodetic_to_spherical import geodetic_to_spherical
-from src.modules.parse_wmm import parse_wmm
-from src.modules.gauss_coefficients import gauss_coefficients
-from src.modules.schmidt_semi_normal import schmidt_semi_normalize
-from src.modules.vector_components import vector_components
+from utils.parse_wmm import parse_wmm
+
+from calc.geodetic_to_spherical import geodetic_to_spherical
+from calc.gauss_coefficients import gauss_coefficients
+from calc.vector_components import vector_components
 
 # TODO: .env or otherwise source these
 MAX_DEGREES = 12  # n

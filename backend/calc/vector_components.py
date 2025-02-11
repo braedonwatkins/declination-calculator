@@ -1,8 +1,6 @@
 import math
 
-import numpy as np
-from scipy.special import lpmv
-from src.modules.schmidt_semi_normal import (
+from calc.schmidt_semi_normal import (
     schmidt_semi_normalize,
     schmidt_semi_normalize_d1,
 )

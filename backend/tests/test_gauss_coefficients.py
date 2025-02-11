@@ -1,5 +1,5 @@
 import pytest
-from src.modules.gauss_coefficients import gauss_coefficients
+from calc.gauss_coefficients import gauss_coefficients
 
 
 test_data = [

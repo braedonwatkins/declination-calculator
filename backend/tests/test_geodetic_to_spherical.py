@@ -1,6 +1,6 @@
 import math
 import pytest
-from src.modules.geodetic_to_spherical import geodetic_to_spherical
+from calc.geodetic_to_spherical import geodetic_to_spherical
 
 # TODO: .env this
 B = 6356752.314245
