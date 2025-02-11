@@ -30,7 +30,7 @@ def field_vector(lat: float, lon: float, alt: float, input_time: float) -> Field
 
     # if env is set up will grab that path, otherwise assume unaltered in ./data/
     script_dir = Path(__file__).parent.parent
-    implicit_path = str(script_dir / "data" / "WMM{int(EPOCH)}COF/WMM.COF")
+    implicit_path = str(script_dir / "data" / f"WMM{int(EPOCH)}COF/WMM.COF")
     explicit_path = os.getenv("DATA_PATH")
 
     g, h, g_dot, h_dot = parse_wmm(explicit_path if explicit_path else implicit_path)
