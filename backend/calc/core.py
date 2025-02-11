@@ -2,18 +2,17 @@ import math
 import numpy as np
 from pathlib import Path
 
-from const import *
+from ..calc.const import *
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
-from utils.parse_wmm import parse_wmm
-from calc.geodetic_to_spherical import geodetic_to_spherical
-from calc.gauss_coefficients import gauss_coefficients
-from calc.vector_components import vector_components
-
-from ..types import FieldVector
+from ..utils.parse_wmm import parse_wmm
+from ..calc.geodetic_to_spherical import geodetic_to_spherical
+from ..calc.gauss_coefficients import gauss_coefficients
+from ..calc.vector_components import vector_components
+from ..my_types import FieldVector
 
 
 def field_vector(lat: float, lon: float, alt: float, input_time: float) -> FieldVector:

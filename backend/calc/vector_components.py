@@ -1,7 +1,7 @@
 import math
 
-from calc.const import MAX_DEGREE
-from calc.schmidt_semi_normal import (
+from ..calc.const import MAX_DEGREE
+from ..calc.schmidt_semi_normal import (
     schmidt_semi_normalize,
     schmidt_semi_normalize_d1,
 )
