@@ -27,6 +27,9 @@ class Test(BaseModel):
 @app.post("/point-calc")
 async def point_calc(req: Test):
     vector = field_vector(req.lat, req.lon, req.h, req.year)
+    vector.I = math.degrees(vector.I)
+    vector.D = math.degrees(vector.D)
+
     return {"message": "success", "vector": vector}
 
 
@@ -49,7 +52,9 @@ async def vector_field(req: Test2):
         for lat in lat_points:
             # print(lat, lon)
             vec = field_vector(lat, lon, req.h, req.year)
-            print(vec)
+            vec.I = math.degrees(vec.I)
+            vec.D = math.degrees(vec.D)
+
             vectors.append(vec)
 
     return {"message": "success", "vectors": vectors}
