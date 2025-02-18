@@ -14,6 +14,7 @@ const Calculator = () => {
         <Simulation />
       </div>
       <div className="flex gap-2">
+        {/*TODO: look into React Slider, this doesn't have good UX for quadratic mapping*/}
         <input
           role="slider"
           type="range"
