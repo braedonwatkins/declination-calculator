@@ -72,8 +72,8 @@ def field_vector(lat: float, lon: float, alt: float, input_time: float) -> Field
 
     H = np.sqrt(x**2 + y**2)
     F = np.sqrt(H**2 + z**2)
-    I = np.arctan(z / H)
-    D = np.arctan(y / x)
+    I = np.arctan2(z, H)
+    D = np.arctan2(y, x)
     # print("declination?", D)
 
     fieldVector = FieldVector(x, y, z, H, F, I, D)
