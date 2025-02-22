@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Simulation from "../components/Simulation";
 import { toast } from "react-toastify";
 import handleAxiosError from "../utils/handleAxiosError";
@@ -10,22 +10,21 @@ const Calculator = () => {
   const [particleCount, setParticleCount] = useState(40);
   const [latLonArr, setLatLonArr] = useState<Float32Array>(new Float32Array());
 
-  // useEffect(() => {
-  //   getVectorField(latLonArr);
-  // }, [latLonArr]);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setParticleCount(Number(e.target.value));
   };
 
   const getVectorField = async (latLonArr: Float32Array) => {
     try {
+      toast.info("Calculating Vector Field");
+      //TODO: const URL, h, and year
       await axios.post(`http://localhost:8000/vector-field`, {
-        lat_lon_list: Array.from(latLonArr),
+        lat_lon_list: Array.from(latLonArr), //TODO: figure out if this is bad for perf?
         h: 0.0,
         year: 2025.0,
       });
 
+      //TODO: ideally we dont toast this but just render results
       toast.success("Vector Field Calculated");
     } catch (err: unknown) {
       handleAxiosError(err, "Get Vector Field");
