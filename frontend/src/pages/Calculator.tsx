@@ -4,7 +4,7 @@ import Simulation from "../components/Simulation";
 const Calculator = () => {
   const getSquare = (n: number) => n ** 2;
 
-  const [particleCount, setParticleCount] = useState(1);
+  const [particleCount, setParticleCount] = useState(40);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setParticleCount(Number(e.target.value));
