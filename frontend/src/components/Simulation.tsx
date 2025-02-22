@@ -3,10 +3,14 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import React, { useEffect, useMemo } from "react";
 import * as THREE from "three";
 
-type ParticeSystemProps = {
+type ParticleSystemProps = {
   particleCount: number;
+  setLatLonArr: (num: Float32Array) => void;
 };
-const ParticleSystem: React.FC<ParticeSystemProps> = ({ particleCount }) => {
+const ParticleSystem: React.FC<ParticleSystemProps> = ({
+  particleCount,
+  setLatLonArr,
+}) => {
   //TODO: fix that type
   const particleRef = React.useRef<THREE.Points>(null);
 
@@ -17,8 +21,8 @@ const ParticleSystem: React.FC<ParticeSystemProps> = ({ particleCount }) => {
   }, [particleCount]);
 
   const positions = useMemo(() => {
-    const pos = new Float32Array(particleCount * 3);
-    const latLonArray = new Float32Array(particleCount * 2);
+    const cartesian = new Float32Array(particleCount * 3);
+    const latLon = new Float32Array(particleCount * 2);
 
     // NOTE: apparently evenly spaced points on a sphere is a tough problem!!! look more into this later!
     for (let i = 0; i < particleCount; i++) {
@@ -29,15 +33,16 @@ const ParticleSystem: React.FC<ParticeSystemProps> = ({ particleCount }) => {
       const x = Math.cos(phi) * radius * 2;
       const z = Math.sin(phi) * radius * 2;
 
-      pos[i * 3] = x;
-      pos[i * 3 + 1] = y * 2;
-      pos[i * 3 + 2] = z;
+      cartesian[i * 3] = x;
+      cartesian[i * 3 + 1] = y * 2;
+      cartesian[i * 3 + 2] = z;
 
-      latLonArray[i * 2] = Math.asin((y * 2) / 2) * (180 / Math.PI);
-      latLonArray[i * 2 + 1] = Math.atan2(z, x) * (180 / Math.PI);
+      latLon[i * 2] = Math.asin((y * 2) / 2) * (180 / Math.PI); //lat
+      latLon[i * 2 + 1] = Math.atan2(z, x) * (180 / Math.PI); //lon
     }
-    return pos;
-  }, [particleCount]);
+    setLatLonArr(latLon);
+    return { cartesian, latLon };
+  }, [particleCount, setLatLonArr]);
 
   useFrame((_, delta) => {
     particleRef.current!.rotation.x += delta / 10;
@@ -47,7 +52,7 @@ const ParticleSystem: React.FC<ParticeSystemProps> = ({ particleCount }) => {
   return (
     <Points
       ref={particleRef}
-      positions={positions}
+      positions={positions.cartesian}
       stride={3}
       frustumCulled={false}
     >
@@ -64,12 +69,19 @@ const ParticleSystem: React.FC<ParticeSystemProps> = ({ particleCount }) => {
 
 type SimulationProps = {
   particleCount: number;
+  setLatLonArr: (num: Float32Array) => void;
 };
 
-const Simulation: React.FC<SimulationProps> = ({ particleCount }) => {
+const Simulation: React.FC<SimulationProps> = ({
+  particleCount,
+  setLatLonArr,
+}) => {
   return (
     <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
-      <ParticleSystem particleCount={particleCount} />
+      <ParticleSystem
+        particleCount={particleCount}
+        setLatLonArr={setLatLonArr}
+      />
     </Canvas>
   );
 };
