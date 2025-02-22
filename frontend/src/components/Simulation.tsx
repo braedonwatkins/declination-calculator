@@ -18,16 +18,23 @@ const ParticleSystem: React.FC<ParticeSystemProps> = ({ particleCount }) => {
 
   const positions = useMemo(() => {
     const pos = new Float32Array(particleCount * 3);
+    const latLonArray = new Float32Array(particleCount * 2);
 
     // NOTE: apparently evenly spaced points on a sphere is a tough problem!!! look more into this later!
     for (let i = 0; i < particleCount; i++) {
-      const y = 1 - (i / (particleCount - 1)) * 2; // Uniformly spaced Y-coordinates from 1 to -1
-      const radius = Math.sqrt(1 - y * y); // Radius of circle at height y
-      const phi = i * Math.PI * (3 - Math.sqrt(5)); // Golden angle increment
+      const y = 1 - (i / (particleCount - 1)) * 2;
+      const radius = Math.sqrt(1 - y * y);
+      const phi = i * Math.PI * (3 - Math.sqrt(5));
 
-      pos[i * 3] = Math.cos(phi) * radius * 2;
+      const x = Math.cos(phi) * radius * 2;
+      const z = Math.sin(phi) * radius * 2;
+
+      pos[i * 3] = x;
       pos[i * 3 + 1] = y * 2;
-      pos[i * 3 + 2] = Math.sin(phi) * radius * 2;
+      pos[i * 3 + 2] = z;
+
+      latLonArray[i * 2] = Math.asin((y * 2) / 2) * (180 / Math.PI);
+      latLonArray[i * 2 + 1] = Math.atan2(z, x) * (180 / Math.PI);
     }
     return pos;
   }, [particleCount]);
