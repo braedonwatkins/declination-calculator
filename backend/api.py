@@ -34,27 +34,23 @@ async def point_calc(req: Test):
 
 
 class Test2(BaseModel):
-    num_points: int
+    lat_lon_list: list[float]
     h: float
     year: float
 
 
 @app.post("/vector-field")
 async def vector_field(req: Test2):
-    num_points = int(math.sqrt(req.num_points))
-
-    lon_points = np.linspace(lonMin, lonMax, num_points)
-    lat_points = np.linspace(latMin, latMax, num_points)
+    lat_lon_list = req.lat_lon_list
 
     vectors = []
 
-    for lon in lon_points:
-        for lat in lat_points:
-            # print(lat, lon)
-            vec = field_vector(lat, lon, req.h, req.year)
-            vec.I = math.degrees(vec.I)
-            vec.D = math.degrees(vec.D)
+    for i in range(0, len(lat_lon_list), 2):
+        lat, lon = lat_lon_list[i], lat_lon_list[i + 1]
+        vec = field_vector(lat, lon, req.h, req.year)
+        vec.I = math.degrees(vec.I)
+        vec.D = math.degrees(vec.D)
 
-            vectors.append(vec)
+        vectors.append(vec)
 
     return {"message": "success", "vectors": vectors}
