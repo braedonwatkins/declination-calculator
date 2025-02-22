@@ -5,11 +5,17 @@ import numpy as np
 import math
 
 from .calc.core import field_vector
+from fastapi.middleware.cors import CORSMiddleware
 
 latMin, latMax = -90, 90
 lonMin, lonMax = -180, 180
 
 app = FastAPI()
+
+origins = ["http://localhost:5173"]
+app.add_middleware(
+    CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"]
+)
 
 
 @app.get("/")
