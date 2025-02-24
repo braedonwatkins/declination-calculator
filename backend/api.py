@@ -1,8 +1,12 @@
+from dataclasses import dataclass
+from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-import numpy as np
 import math
+
+from .my_types import FieldVector
+
 
 from .calc.core import field_vector
 from fastapi.middleware.cors import CORSMiddleware
@@ -45,6 +49,12 @@ class Test2(BaseModel):
     year: float
 
 
+@dataclass
+class RetVec(FieldVector):
+    lat: Optional[float] = None
+    lon: Optional[float] = None
+
+
 @app.post("/vector-field")
 async def vector_field(req: Test2):
     lat_lon_list = req.lat_lon_list
@@ -57,6 +67,9 @@ async def vector_field(req: Test2):
         vec.I = math.degrees(vec.I)
         vec.D = math.degrees(vec.D)
 
-        vectors.append(vec)
+        # NOTE: this seems like a silly way to extend a class but i'll let it go for now
+        ret: RetVec = RetVec(**vec.__dict__, lat=lat, lon=lon)
+
+        vectors.append(ret)
 
     return {"message": "success", "vectors": vectors}
